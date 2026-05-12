@@ -52,7 +52,7 @@ const I18N = {
     projectsNote: "A focused set of repositories aligned with cloud, backend, and platform engineering.",
     contactEyebrow: "Contact",
     contactHeading: "Open to cloud and backend opportunities.",
-    contactBody: "You can review my repositories and connect with me through the social links below.",
+    contactBody: "You can review my repositories and connect with me through the links in the top bar.",
     cvEyebrow: "Request my CV",
     cvHeading: "Need my full CV for a role or collaboration?",
     cvBody: "Share a few details below and I will send it to your email.",
@@ -68,7 +68,6 @@ const I18N = {
     cvSubmitting: "Submitting your request...",
     cvSubmitError: "Submission failed. Please try again or reach out via social links.",
     backToTop: "Back to top",
-    footerCopy: "Connect with me",
     showcaseBadge: "Showcase project",
     updated: "Updated",
     viewRepo: "View repo",
@@ -122,7 +121,7 @@ const I18N = {
     projectsNote: "Bulut, backend ve platform mühendisliği odağıyla seçilmiş depolar.",
     contactEyebrow: "İletişim",
     contactHeading: "Bulut ve backend fırsatlarına açığım.",
-    contactBody: "Depolarımı inceleyebilir ve aşağıdaki sosyal bağlantılardan bana ulaşabilirsiniz.",
+    contactBody: "Depolarımı inceleyebilir ve üst çubuktaki bağlantılar üzerinden bana ulaşabilirsiniz.",
     cvEyebrow: "CV Talebi",
     cvHeading: "Bir pozisyon veya iş birliği için detaylı CV mi istiyor musunuz?",
     cvBody: "Aşağıdaki formu doldurun, CV mi e-posta ile paylaşayım.",
@@ -138,7 +137,6 @@ const I18N = {
     cvSubmitting: "Talebiniz gonderiliyor...",
     cvSubmitError: "Gonderim basarisiz oldu. Lutfen tekrar deneyin veya sosyal baglantilardan iletisim kurun.",
     backToTop: "Yukarıya dön",
-    footerCopy: "Bana ulaşın",
     showcaseBadge: "Vitrin projesi",
     updated: "Güncellendi",
     viewRepo: "Repoyu gör",
@@ -293,6 +291,7 @@ const EXPERIENCE_ITEMS = [
     },
     company: "Better Life Communication",
     companyUrl: "https://www.blc-css.com/",
+    companyLogo: "assets/companies/better%20life%20communication.png",
     period: {
       en: "Jan 2026 - Feb 2026",
       tr: "Oca 2026 - Şub 2026",
@@ -317,6 +316,7 @@ const EXPERIENCE_ITEMS = [
     },
     company: "Tüzün Kardeşler A.Ş.",
     companyUrl: "https://www.tuzunkardesler.com.tr/",
+    companyLogo: "assets/companies/tuzun%20kardesler.png",
     period: {
       en: "Jun 2024 - Sep 2024",
       tr: "Haz 2024 - Eyl 2024",
@@ -489,7 +489,6 @@ function applyStaticTranslations() {
   setText("cv-label-message", t("cvLabelMessage"));
   setText("cv-submit", t("cvSubmit"));
   setText("contact-back-to-top", t("backToTop"));
-  setText("footer-copy", t("footerCopy"));
 
   const setPlaceholder = (id, value) => {
     const element = document.getElementById(id);
@@ -616,6 +615,23 @@ function buildExperienceCard(item, index) {
   card.className = "experience-card glass reveal";
   card.style.setProperty("--reveal-delay", `${index * 120}ms`);
 
+  const topRow = document.createElement("div");
+  topRow.className = "experience-top";
+
+  const logo = document.createElement("div");
+  logo.className = "experience-logo";
+
+  if (item.companyLogo) {
+    const logoImage = document.createElement("img");
+    logoImage.src = item.companyLogo;
+    logoImage.alt = `${item.company} logo`;
+    logoImage.loading = "lazy";
+    logoImage.decoding = "async";
+    logo.appendChild(logoImage);
+  } else {
+    logo.setAttribute("aria-hidden", "true");
+  }
+
   const header = document.createElement("div");
   header.className = "experience-header";
 
@@ -636,6 +652,8 @@ function buildExperienceCard(item, index) {
   header.appendChild(company);
   appendTextElement(header, "p", "experience-period", getLocalizedField(item.period));
 
+  topRow.append(logo, header);
+
   const highlightsTitle = appendTextElement(card, "p", "experience-highlights-title", t("experienceHighlightsTitle"));
   const highlights = document.createElement("ul");
   highlights.className = "experience-highlights";
@@ -647,7 +665,7 @@ function buildExperienceCard(item, index) {
     highlights.appendChild(listItem);
   });
 
-  card.append(header, highlightsTitle, highlights);
+  card.append(topRow, highlightsTitle, highlights);
 
   return card;
 }
