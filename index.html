@@ -43,7 +43,35 @@
           <button class="lang-btn" type="button" data-lang="en" aria-label="Switch to English">EN</button>
           <button class="lang-btn" type="button" data-lang="tr" aria-label="Türkçeye geç">TR</button>
         </div>
-        <button class="theme-toggle" id="theme-toggle" type="button" aria-pressed="false">Dark</button>
+        <button class="theme-toggle" id="theme-toggle" type="button" aria-pressed="false">
+          <span class="sr-only" id="theme-toggle-label">Toggle theme</span>
+          <svg class="theme-toggle-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <defs>
+              <mask id="theme-toggle-mask">
+                <rect width="24" height="24" fill="#fff" />
+                <circle class="theme-toggle-mask" cx="12" cy="12" r="5" fill="#000" />
+              </mask>
+            </defs>
+            <g stroke="currentColor" stroke-linecap="round">
+              <circle
+                class="theme-toggle-core"
+                cx="12"
+                cy="12"
+                r="5"
+                fill="currentColor"
+                mask="url(#theme-toggle-mask)"
+              />
+              <path class="theme-toggle-ray" d="M12 1.4v2.4" fill="none" stroke-width="2" stroke-linejoin="round" />
+              <path class="theme-toggle-ray" d="m20.3 3.7-2.5 2.5" fill="none" stroke-width="2" stroke-linejoin="round" />
+              <path class="theme-toggle-ray" d="M22.6 12h-2.4" fill="none" stroke-width="2" stroke-linejoin="round" />
+              <path class="theme-toggle-ray" d="M12 22.6v-2.4" fill="none" stroke-width="2" stroke-linejoin="round" />
+              <path class="theme-toggle-ray" d="M1.4 12h2.4" fill="none" stroke-width="2" stroke-linejoin="round" />
+              <path class="theme-toggle-ray" d="m20.3 20.3-2.5-2.5" fill="none" stroke-width="2" stroke-linejoin="round" />
+              <path class="theme-toggle-ray" d="m3.7 20.3 2.5-2.5" fill="none" stroke-width="2" stroke-linejoin="round" />
+              <path class="theme-toggle-ray" d="m3.7 3.7 2.5 2.5" fill="none" stroke-width="2" stroke-linejoin="round" />
+            </g>
+          </svg>
+        </button>
       </div>
     </header>
 

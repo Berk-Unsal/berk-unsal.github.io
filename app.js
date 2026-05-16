@@ -393,10 +393,15 @@ function updateThemeToggle() {
     return;
   }
 
+  const label = document.getElementById("theme-toggle-label");
+
   const isDark = currentTheme === "dark";
-  toggleButton.textContent = isDark ? t("themeLight") : t("themeDark");
+  if (label) {
+    label.textContent = isDark ? t("themeLight") : t("themeDark");
+  }
   toggleButton.setAttribute("aria-label", isDark ? t("themeToggleLight") : t("themeToggleDark"));
   toggleButton.setAttribute("aria-pressed", isDark ? "true" : "false");
+  toggleButton.setAttribute("title", isDark ? t("themeToggleLight") : t("themeToggleDark"));
 }
 
 function applyTheme(nextTheme, persist = true, force = false) {
