@@ -28,6 +28,7 @@
         <a class="nav-link" id="nav-about" href="#about">About</a>
         <a class="nav-link" id="nav-experience" href="#experience">Experience</a>
         <a class="nav-link" id="nav-projects" href="#projects">Projects</a>
+        <a class="nav-link" id="nav-certificates" href="#certificates">Certificates</a>
         <a class="nav-link" id="nav-contact" href="#contact">Contact</a>
       </nav>
       <div class="topbar-actions">
@@ -144,6 +145,18 @@
         <div class="projects-grid" id="projects-grid" aria-live="polite"></div>
       </section>
 
+      <section class="section certificates reveal" id="certificates">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow" id="certificates-eyebrow">Certificates</p>
+            <h2 id="certificates-heading">Professional certificates and coursework.</h2>
+          </div>
+          <p class="projects-note" id="certificates-note">Click a certificate to preview the PDF.</p>
+        </div>
+
+        <div class="certificates-grid" id="certificates-grid" aria-live="polite"></div>
+      </section>
+
       <section class="section contact reveal" id="contact">
         <div class="contact-layout">
           <div class="contact-card glass">
@@ -205,6 +218,19 @@
           <source id="video-source" src="" type="video/mp4">
           Your browser does not support the video tag.
         </video>
+      </div>
+    </div>
+
+    <!-- PDF Modal -->
+    <div id="pdf-modal" class="pdf-modal" style="display: none;">
+      <div class="pdf-modal-backdrop"></div>
+      <div class="pdf-modal-content" role="dialog" aria-modal="true" aria-labelledby="pdf-modal-title">
+        <div class="pdf-modal-header">
+          <p class="pdf-modal-title" id="pdf-modal-title">Certificate</p>
+          <a class="pdf-modal-link" id="pdf-modal-open" href="#" target="_blank" rel="noopener noreferrer">Open in new tab</a>
+          <button id="pdf-modal-close" class="pdf-modal-close" aria-label="Close certificate" type="button">&times;</button>
+        </div>
+        <iframe id="pdf-viewer" class="pdf-modal-frame" title="Certificate PDF" loading="lazy"></iframe>
       </div>
     </div>
 

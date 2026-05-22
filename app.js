@@ -27,6 +27,7 @@ const I18N = {
     navAbout: "About",
     navExperience: "Experience",
     navProjects: "Projects",
+    navCertificates: "Certificates",
     navContact: "Contact",
     themeDark: "Dark",
     themeLight: "Light",
@@ -60,6 +61,13 @@ const I18N = {
     projectsEyebrow: "Projects",
     projectsHeading: "Selected projects and open-source work.",
     projectsNote: "A focused set of repositories aligned with cloud, backend, and platform engineering.",
+    certificatesEyebrow: "Certificates",
+    certificatesHeading: "Professional certificates and coursework.",
+    certificatesNote: "Click a certificate to preview the PDF.",
+    certificateOpen: "View PDF",
+    certificateModalTitle: "Certificate",
+    certificateOpenNewTab: "Open in new tab",
+    issuedLabel: "Issued",
     contactEyebrow: "Contact",
     contactHeading: "Open to cloud and backend opportunities.",
     contactBody: "You can review my repositories and connect with me through the links in the top bar.",
@@ -100,6 +108,7 @@ const I18N = {
     navAbout: "Hakkımda",
     navExperience: "Deneyim",
     navProjects: "Projeler",
+    navCertificates: "Sertifikalar",
     navContact: "İletişim",
     themeDark: "Karanlık",
     themeLight: "Aydınlık",
@@ -133,6 +142,13 @@ const I18N = {
     projectsEyebrow: "Projeler",
     projectsHeading: "Seçili projeler ve açık kaynak katkıları.",
     projectsNote: "Bulut, backend ve platform mühendisliği odağıyla seçilmiş depolar.",
+    certificatesEyebrow: "Sertifikalar",
+    certificatesHeading: "Profesyonel sertifikalar ve dersler.",
+    certificatesNote: "PDF önizlemek için sertifikaya tıklayın.",
+    certificateOpen: "PDF gör",
+    certificateModalTitle: "Sertifika",
+    certificateOpenNewTab: "Yeni sekmede aç",
+    issuedLabel: "Tarih",
     contactEyebrow: "İletişim",
     contactHeading: "Bulut ve backend fırsatlarına açığım.",
     contactBody: "Depolarımı inceleyebilir ve üst çubuktaki bağlantılar üzerinden bana ulaşabilirsiniz.",
@@ -350,10 +366,44 @@ const EXPERIENCE_ITEMS = [
   },
 ];
 
+const CERTIFICATES = [
+  {
+    title: "Container and Virtualization Concepts",
+    pdf: "assets/certificates/Contanier and Virtualization Concepts.pdf",
+  },
+  {
+    title: "Exploratory Data Analysis in Python",
+    pdf: "assets/certificates/Exploratory Data Analysis in Python.pdf",
+  },
+  {
+    title: "Hypothesis Testing in Python",
+    pdf: "assets/certificates/Hypothesis Testing in Python.pdf",
+  },
+  {
+    title: "Intermediate Python",
+    pdf: "assets/certificates/Intermediate Python.pdf",
+  },
+  {
+    title: "Introduction to Kubernetes",
+    pdf: "assets/certificates/Introduction to Kubernetes.pdf",
+  },
+  {
+    title: "Sampling in Python",
+    pdf: "assets/certificates/Sampling in Python.pdf",
+  },
+  {
+    title: "Understanding Cloud Computing",
+    pdf: "assets/certificates/Understanding Cloud Computing.pdf",
+  },
+];
+
 const projectsGrid = document.getElementById("projects-grid");
 const experienceGrid = document.getElementById("experience-grid");
+const certificatesGrid = document.getElementById("certificates-grid");
 const videoModal = document.getElementById("video-modal");
 const videoModalClose = document.getElementById("video-modal-close");
+const pdfModal = document.getElementById("pdf-modal");
+const pdfModalClose = document.getElementById("pdf-modal-close");
 let revealObserver = null;
 let currentLanguage = "en";
 let currentTheme = "light";
@@ -366,6 +416,19 @@ if (videoModal) {
   videoModal.addEventListener("click", (e) => {
     if (e.target === videoModal) {
       closeVideoModal();
+    }
+  });
+}
+
+if (pdfModalClose) {
+  pdfModalClose.addEventListener("click", closePdfModal);
+}
+
+if (pdfModal) {
+  pdfModal.addEventListener("click", (e) => {
+    const target = e.target;
+    if (target === pdfModal || (target instanceof Element && target.classList.contains("pdf-modal-backdrop"))) {
+      closePdfModal();
     }
   });
 }
@@ -465,6 +528,37 @@ function closeVideoModal() {
   }
 }
 
+function openPdfModal(pdfUrl, title) {
+  const modal = document.getElementById("pdf-modal");
+  const viewer = document.getElementById("pdf-viewer");
+  const modalTitle = document.getElementById("pdf-modal-title");
+  const openLink = document.getElementById("pdf-modal-open");
+  if (!modal || !viewer || !openLink) {
+    return;
+  }
+
+  const resolvedUrl = encodeURI(pdfUrl);
+  viewer.src = resolvedUrl;
+  openLink.href = resolvedUrl;
+
+  if (modalTitle) {
+    modalTitle.textContent = title || t("certificateModalTitle");
+  }
+
+  modal.style.display = "flex";
+}
+
+function closePdfModal() {
+  const modal = document.getElementById("pdf-modal");
+  const viewer = document.getElementById("pdf-viewer");
+  if (!modal || !viewer) {
+    return;
+  }
+
+  modal.style.display = "none";
+  viewer.removeAttribute("src");
+}
+
 function getLocalizedField(field) {
   if (field && typeof field === "object" && !Array.isArray(field)) {
     return field[currentLanguage] ?? field.en ?? "";
@@ -515,6 +609,7 @@ function applyStaticTranslations() {
   setText("nav-about", t("navAbout"));
   setText("nav-experience", t("navExperience"));
   setText("nav-projects", t("navProjects"));
+  setText("nav-certificates", t("navCertificates"));
   setText("nav-contact", t("navContact"));
   setText("hero-eyebrow", t("heroEyebrow"));
   setText("hero-lede", t("heroLede"));
@@ -542,6 +637,9 @@ function applyStaticTranslations() {
   setText("projects-eyebrow", t("projectsEyebrow"));
   setText("projects-heading", t("projectsHeading"));
   setText("projects-note", t("projectsNote"));
+  setText("certificates-eyebrow", t("certificatesEyebrow"));
+  setText("certificates-heading", t("certificatesHeading"));
+  setText("certificates-note", t("certificatesNote"));
   setText("contact-eyebrow", t("contactEyebrow"));
   setText("contact-heading", t("contactHeading"));
   setText("contact-body", t("contactBody"));
@@ -554,6 +652,8 @@ function applyStaticTranslations() {
   setText("cv-label-message", t("cvLabelMessage"));
   setText("cv-submit", t("cvSubmit"));
   setText("contact-back-to-top", t("backToTop"));
+  setText("pdf-modal-title", t("certificateModalTitle"));
+  setText("pdf-modal-open", t("certificateOpenNewTab"));
 
   const setPlaceholder = (id, value) => {
     const element = document.getElementById(id);
@@ -746,6 +846,52 @@ function buildExperienceCard(item, index) {
   return card;
 }
 
+function buildCertificateCard(certificate, index) {
+  const card = document.createElement("button");
+  card.type = "button";
+  card.className = "certificate-card glass reveal";
+  card.style.setProperty("--reveal-delay", `${index * 110}ms`);
+
+  appendTextElement(card, "p", "certificate-badge", t("certificateModalTitle"));
+  appendTextElement(card, "h3", "certificate-title", certificate.title);
+
+  const meta = document.createElement("div");
+  meta.className = "certificate-meta";
+  if (certificate.issuer) {
+    appendTextElement(meta, "span", "certificate-meta-item", certificate.issuer);
+  }
+  if (certificate.issuedAt) {
+    appendTextElement(meta, "span", "certificate-meta-item", `${t("issuedLabel")} ${humanizeDate(certificate.issuedAt)}`);
+  }
+  if (meta.childElementCount) {
+    card.appendChild(meta);
+  }
+
+  appendTextElement(card, "span", "certificate-action", t("certificateOpen"));
+
+  card.addEventListener("click", () => {
+    openPdfModal(certificate.pdf, certificate.title);
+  });
+
+  return card;
+}
+
+function loadCertificates() {
+  if (!certificatesGrid) {
+    return;
+  }
+
+  certificatesGrid.innerHTML = "";
+  const fragment = document.createDocumentFragment();
+
+  CERTIFICATES.forEach((certificate, index) => {
+    fragment.appendChild(buildCertificateCard(certificate, index));
+  });
+
+  certificatesGrid.appendChild(fragment);
+  setTimeout(observeReveals, 100);
+}
+
 function loadExperienceEntries() {
   if (!experienceGrid) {
     return;
@@ -790,6 +936,7 @@ function setLanguage(nextLanguage, persist = true, force = false) {
   updateLanguageControls();
   loadExperienceEntries();
   loadShowcaseProjects();
+  loadCertificates();
 
   if (persist) {
     setStoredValue(LANGUAGE_STORAGE_KEY, currentLanguage);
@@ -1457,6 +1604,12 @@ function initApp() {
   initThemeToggle();
   initLanguageSwitcher();
   initSectionNavState();
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && pdfModal?.style.display === "flex") {
+      closePdfModal();
+    }
+  });
 }
 
 if (document.readyState === "loading") {
