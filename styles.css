@@ -462,7 +462,7 @@ main {
 
 .hero {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(280px, 420px);
+  grid-template-columns: minmax(0, 1fr);
   gap: 28px;
   align-items: center;
   padding-top: 48px;
@@ -1140,6 +1140,12 @@ main {
   transition: background 180ms ease, border-color 180ms ease;
 }
 
+.project-link-button.watch-demo-glow {
+  background: rgba(10, 132, 255, 0.12);
+  border-color: rgba(10, 132, 255, 0.35);
+  box-shadow: 0 0 16px rgba(10, 132, 255, 0.35), inset 0 0 0 1px rgba(10, 132, 255, 0.2);
+}
+
 :root[data-theme="dark"] .project-links a,
 :root[data-theme="dark"] .project-link-button {
   border-color: rgba(255, 255, 255, 0.18);
@@ -1151,10 +1157,28 @@ main {
   border-color: rgba(17, 17, 17, 0.16);
 }
 
+.project-link-button.watch-demo-glow:hover {
+  background: rgba(10, 132, 255, 0.18);
+  border-color: rgba(10, 132, 255, 0.45);
+  box-shadow: 0 0 22px rgba(10, 132, 255, 0.45), inset 0 0 0 1px rgba(10, 132, 255, 0.28);
+}
+
 :root[data-theme="dark"] .project-links a:hover,
 :root[data-theme="dark"] .project-link-button:hover {
   background: rgba(255, 255, 255, 0.08);
   border-color: rgba(255, 255, 255, 0.22);
+}
+
+:root[data-theme="dark"] .project-link-button.watch-demo-glow {
+  background: rgba(108, 182, 255, 0.16);
+  border-color: rgba(108, 182, 255, 0.4);
+  box-shadow: 0 0 18px rgba(108, 182, 255, 0.4), inset 0 0 0 1px rgba(108, 182, 255, 0.22);
+}
+
+:root[data-theme="dark"] .project-link-button.watch-demo-glow:hover {
+  background: rgba(108, 182, 255, 0.22);
+  border-color: rgba(108, 182, 255, 0.5);
+  box-shadow: 0 0 24px rgba(108, 182, 255, 0.5), inset 0 0 0 1px rgba(108, 182, 255, 0.3);
 }
 
 .contact-card {

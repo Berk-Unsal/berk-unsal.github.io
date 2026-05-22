@@ -93,7 +93,7 @@ const I18N = {
       private: "private",
       repo: "repo",
     },
-    pageTitle: "Berk | Portfolio",
+    pageTitle: "Berk Ünsal | Portfolio",
     pageDescription: "Minimalist portfolio focused on cloud engineering, backend work, and selected GitHub projects.",
   },
   tr: {
@@ -166,7 +166,7 @@ const I18N = {
       private: "özel",
       repo: "repo",
     },
-    pageTitle: "Berk | Portföy",
+    pageTitle: "Berk Ünsal | Portföy",
     pageDescription: "Bulut mühendisliği, backend çalışmaları ve seçili GitHub projelerine odaklanan minimal portföy sitesi.",
   },
 };
@@ -664,7 +664,9 @@ function buildProjectCard(project, index) {
   if (project.demoVideoUrl) {
     const watchDemoButton = document.createElement("button");
     watchDemoButton.type = "button";
-    watchDemoButton.className = "project-link-button";
+    watchDemoButton.className = project.name === "OpsCommand"
+      ? "project-link-button watch-demo-glow"
+      : "project-link-button";
     watchDemoButton.textContent = t("watchDemo");
     watchDemoButton.addEventListener("click", () => {
       openVideoModal(project.demoVideoUrl);
@@ -685,8 +687,15 @@ function buildExperienceCard(item, index) {
   const topRow = document.createElement("div");
   topRow.className = "experience-top";
 
-  const logo = document.createElement("div");
+  const logo = document.createElement(item.companyUrl ? "a" : "div");
   logo.className = "experience-logo";
+
+  if (item.companyUrl) {
+    logo.href = item.companyUrl;
+    logo.target = "_blank";
+    logo.rel = "noreferrer";
+    logo.setAttribute("aria-label", item.company);
+  }
 
   if (item.companyLogo) {
     const logoImage = document.createElement("img");
