@@ -1223,6 +1223,26 @@ main {
   border-color: rgba(255, 255, 255, 0.7);
 }
 
+.certificate-card-eu {
+  border-color: rgba(0, 84, 159, 0.55);
+  box-shadow: 0 12px 32px rgba(0, 84, 159, 0.18);
+}
+
+.certificate-card-eu:hover {
+  border-color: rgba(0, 84, 159, 0.8);
+  box-shadow: 0 16px 36px rgba(0, 84, 159, 0.24);
+}
+
+:root[data-theme="dark"] .certificate-card-eu {
+  border-color: rgba(42, 116, 196, 0.75);
+  box-shadow: 0 12px 32px rgba(42, 116, 196, 0.3);
+}
+
+:root[data-theme="dark"] .certificate-card-eu:hover {
+  border-color: rgba(80, 150, 220, 0.9);
+  box-shadow: 0 16px 36px rgba(80, 150, 220, 0.38);
+}
+
 .certificate-badge {
   margin: 0;
   text-transform: uppercase;

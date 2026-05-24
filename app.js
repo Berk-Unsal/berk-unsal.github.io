@@ -372,6 +372,11 @@ const CERTIFICATES = [
     pdf: "assets/certificates/Contanier and Virtualization Concepts.pdf",
   },
   {
+    title: "Certificate of Erasmus Study Period",
+    pdf: "assets/certificates/Certificate of Erasmus Study Period.pdf",
+    isEu: true,
+  },
+  {
     title: "Exploratory Data Analysis in Python",
     pdf: "assets/certificates/Exploratory Data Analysis in Python.pdf",
   },
@@ -850,6 +855,9 @@ function buildCertificateCard(certificate, index) {
   const card = document.createElement("button");
   card.type = "button";
   card.className = "certificate-card glass reveal";
+  if (certificate.isEu) {
+    card.classList.add("certificate-card-eu");
+  }
   card.style.setProperty("--reveal-delay", `${index * 110}ms`);
 
   appendTextElement(card, "p", "certificate-badge", t("certificateModalTitle"));
