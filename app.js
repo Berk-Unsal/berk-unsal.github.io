@@ -8,18 +8,18 @@ const THEME_COLORS = {
 };
 
 const SKILLS = [
-  { name: "aws", label: "AWS" },
-  { name: "bash", label: "Bash" },
-  { name: "docker", label: "Docker" },
-  { name: "git", label: "Git" },
-  { name: "javascript", label: "JavaScript" },
-  { name: "kubernetes", label: "Kubernetes" },
-  { name: "linux", label: "Linux" },
-  { name: "mongodb", label: "MongoDB" },
-  { name: "open-stack", label: "OpenStack" },
-  { name: "python", label: "Python" },
-  { name: "redis", label: "Redis" },
-  { name: "terraform", label: "Terraform" },
+  { name: "aws", label: "AWS", projectCount: 1 },
+  { name: "bash", label: "Bash", projectCount: 2 },
+  { name: "docker", label: "Docker", projectCount: 2 },
+  { name: "git", label: "Git", projectCount: 5 },
+  { name: "javascript", label: "JavaScript", projectCount: 3 },
+  { name: "kubernetes", label: "Kubernetes", projectCount: 2 },
+  { name: "linux", label: "Linux", projectCount: 2 },
+  { name: "mongodb", label: "MongoDB", projectCount: 1 },
+  { name: "open-stack", label: "OpenStack", projectCount: 1 },
+  { name: "python", label: "Python", projectCount: 2 },
+  { name: "redis", label: "Redis", projectCount: 1 },
+  { name: "terraform", label: "Terraform", projectCount: 1 },
 ];
 
 const I18N = {
@@ -326,6 +326,15 @@ const EXPERIENCE_ITEMS = [
       en: "Jan 2026 - Feb 2026",
       tr: "Oca 2026 - Şub 2026",
     },
+    metrics: [
+      {
+        value: "99.3%",
+        caption: {
+          en: "uptime across Dev, Test, and Production",
+          tr: "Dev, Test ve Production genelinde çalışma süresi",
+        },
+      },
+    ],
     highlights: {
       en: [
         "Standardized IP address management and device documentation with NetBox for a 5-server cluster.",
@@ -351,6 +360,22 @@ const EXPERIENCE_ITEMS = [
       en: "Jun 2024 - Sep 2024",
       tr: "Haz 2024 - Eyl 2024",
     },
+    metrics: [
+      {
+        value: "40%",
+        caption: {
+          en: "less manual release time",
+          tr: "daha az manuel yayın süresi",
+        },
+      },
+      {
+        value: "30%",
+        caption: {
+          en: "lower API latency",
+          tr: "daha düşük API gecikmesi",
+        },
+      },
+    ],
     highlights: {
       en: [
         "Developed and maintained 10+ RESTful API endpoints with Python and Dockerized deployments across environments.",
@@ -594,6 +619,37 @@ function appendTextElement(parent, tagName, className, text) {
   return element;
 }
 
+function formatSkillUsage(projectCount) {
+  const count = Number(projectCount) || 0;
+  if (currentLanguage === "tr") {
+    return `${count} projede kullanıldı`;
+  }
+
+  return `Used in ${count} ${count === 1 ? "project" : "projects"}`;
+}
+
+function updateSkillPopoverCopy(root = document) {
+  root.querySelectorAll(".skills-carousel-item").forEach((item) => {
+    const label = item.dataset.skillLabel || "";
+    const projectCount = item.dataset.projectCount || "0";
+    const usageText = formatSkillUsage(projectCount);
+    const title = item.querySelector(".skills-carousel-popover-title");
+    const meta = item.querySelector(".skills-carousel-popover-meta");
+
+    if (title) {
+      title.textContent = label;
+    }
+
+    if (meta) {
+      meta.textContent = usageText;
+    }
+
+    if (!item.hasAttribute("aria-hidden")) {
+      item.setAttribute("aria-label", `${label}. ${usageText}`);
+    }
+  });
+}
+
 function updateLanguageControls() {
   const buttons = document.querySelectorAll(".lang-btn");
   buttons.forEach((button) => {
@@ -835,6 +891,18 @@ function buildExperienceCard(item, index) {
 
   topRow.append(logo, header);
 
+  const metrics = document.createElement("div");
+  metrics.className = "experience-metrics";
+  (Array.isArray(item.metrics) ? item.metrics : []).forEach((metric) => {
+    const metricCallout = document.createElement("div");
+    metricCallout.className = "experience-metric";
+
+    appendTextElement(metricCallout, "span", "experience-metric-value", metric.value);
+    appendTextElement(metricCallout, "span", "experience-metric-caption", getLocalizedField(metric.caption));
+
+    metrics.appendChild(metricCallout);
+  });
+
   const highlightsTitle = appendTextElement(card, "p", "experience-highlights-title", t("experienceHighlightsTitle"));
   const highlights = document.createElement("ul");
   highlights.className = "experience-highlights";
@@ -846,7 +914,11 @@ function buildExperienceCard(item, index) {
     highlights.appendChild(listItem);
   });
 
-  card.append(topRow, highlightsTitle, highlights);
+  card.append(topRow);
+  if (metrics.childElementCount) {
+    card.appendChild(metrics);
+  }
+  card.append(highlightsTitle, highlights);
 
   return card;
 }
@@ -1392,9 +1464,22 @@ function populateCarousel() {
 
   // Create carousel items twice for seamless infinite scroll
   for (let iteration = 0; iteration < 2; iteration++) {
-    SKILLS.forEach((skill) => {
+    SKILLS.forEach((skill, skillIndex) => {
+      const isDuplicate = iteration > 0;
+      const popoverId = `skill-popover-${iteration}-${skillIndex}`;
       const item = document.createElement("div");
       item.className = "skills-carousel-item";
+      item.dataset.skillLabel = skill.label;
+      item.dataset.projectCount = String(skill.projectCount);
+
+      if (isDuplicate) {
+        item.setAttribute("aria-hidden", "true");
+      } else {
+        item.tabIndex = 0;
+        item.setAttribute("role", "button");
+        item.setAttribute("aria-expanded", "false");
+        item.setAttribute("aria-describedby", popoverId);
+      }
 
       const iconContainer = document.createElement("div");
       iconContainer.className = "skills-carousel-icon";
@@ -1412,8 +1497,24 @@ function populateCarousel() {
       label.className = "skills-carousel-label";
       label.textContent = skill.label;
 
+      const popover = document.createElement("div");
+      popover.className = "skills-carousel-popover";
+      popover.id = popoverId;
+      popover.setAttribute("role", "tooltip");
+
+      const popoverTitle = document.createElement("span");
+      popoverTitle.className = "skills-carousel-popover-title";
+      popoverTitle.textContent = skill.label;
+
+      const popoverMeta = document.createElement("span");
+      popoverMeta.className = "skills-carousel-popover-meta";
+      popoverMeta.textContent = formatSkillUsage(skill.projectCount);
+
+      popover.append(popoverTitle, popoverMeta);
+
       item.appendChild(iconContainer);
       item.appendChild(label);
+      item.appendChild(popover);
 
       fragment.appendChild(item);
     });
@@ -1421,6 +1522,7 @@ function populateCarousel() {
 
   carousel.appendChild(fragment);
   carousel.dataset.initialized = "true";
+  updateSkillPopoverCopy(carousel);
 
   const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const baseSpeed = -28;
@@ -1431,10 +1533,53 @@ function populateCarousel() {
   let halfTrackWidth = 1;
   let lastTime = performance.now();
   let dragging = false;
+  let dragDistance = 0;
   let dragLastClientX = 0;
   let dragLastTime = performance.now();
   let currentSpeed = baseSpeed;
   let targetSpeed = baseSpeed;
+  let activeSkillItem = null;
+
+  const closeSkillPopover = () => {
+    if (!activeSkillItem) {
+      return;
+    }
+
+    activeSkillItem.classList.remove("is-popover-open");
+    activeSkillItem.classList.remove("is-popover-align-left", "is-popover-align-right");
+    activeSkillItem.setAttribute("aria-expanded", "false");
+    activeSkillItem = null;
+  };
+
+  const openSkillPopover = (item) => {
+    if (!(item instanceof HTMLElement)) {
+      return;
+    }
+
+    if (activeSkillItem && activeSkillItem !== item) {
+      closeSkillPopover();
+    }
+
+    item.classList.remove("is-popover-align-left", "is-popover-align-right");
+    const popover = item.querySelector(".skills-carousel-popover");
+    if (popover instanceof HTMLElement) {
+      const itemRect = item.getBoundingClientRect();
+      const containerRect = container.getBoundingClientRect();
+      const popoverWidth = popover.offsetWidth || 164;
+      const itemCenter = itemRect.left + itemRect.width / 2;
+      const inset = 12;
+
+      if (itemCenter - popoverWidth / 2 < containerRect.left + inset) {
+        item.classList.add("is-popover-align-left");
+      } else if (itemCenter + popoverWidth / 2 > containerRect.right - inset) {
+        item.classList.add("is-popover-align-right");
+      }
+    }
+
+    activeSkillItem = item;
+    activeSkillItem.classList.add("is-popover-open");
+    activeSkillItem.setAttribute("aria-expanded", "true");
+  };
 
   const enforceSpeedBounds = (speed, directionHint = baseSpeed) => {
     const hintedDirection = Math.sign(directionHint) || -1;
@@ -1466,7 +1611,7 @@ function populateCarousel() {
     const deltaSeconds = (now - lastTime) / 1000;
     lastTime = now;
 
-    if (!prefersReducedMotion && !document.hidden) {
+    if (!prefersReducedMotion && !document.hidden && !activeSkillItem) {
       if (!dragging) {
         // Ease back toward baseline speed after interaction, while keeping limits.
         targetSpeed += (baseSpeed - targetSpeed) * Math.min(1, deltaSeconds * 0.9);
@@ -1490,6 +1635,7 @@ function populateCarousel() {
 
   container.addEventListener("pointerdown", (event) => {
     dragging = true;
+    dragDistance = 0;
     dragLastClientX = event.clientX;
     dragLastTime = performance.now();
     container.classList.add("is-dragging");
@@ -1508,6 +1654,7 @@ function populateCarousel() {
     const deltaX = event.clientX - dragLastClientX;
     const now = performance.now();
     const deltaSeconds = Math.max((now - dragLastTime) / 1000, 0.001);
+    dragDistance += Math.abs(deltaX);
     dragLastClientX = event.clientX;
     dragLastTime = now;
 
@@ -1533,7 +1680,85 @@ function populateCarousel() {
   container.addEventListener("pointercancel", stopDragging);
   container.addEventListener("pointerleave", stopDragging);
 
+  carousel.addEventListener("pointerover", (event) => {
+    if (event.pointerType === "touch") {
+      return;
+    }
+
+    const item = event.target instanceof Element
+      ? event.target.closest(".skills-carousel-item")
+      : null;
+
+    if (item instanceof HTMLElement) {
+      openSkillPopover(item);
+    }
+  });
+
+  carousel.addEventListener("pointerout", (event) => {
+    if (event.pointerType === "touch") {
+      return;
+    }
+
+    const item = event.target instanceof Element
+      ? event.target.closest(".skills-carousel-item")
+      : null;
+
+    if (!(item instanceof HTMLElement)) {
+      return;
+    }
+
+    if (event.relatedTarget instanceof Node && item.contains(event.relatedTarget)) {
+      return;
+    }
+
+    closeSkillPopover();
+  });
+
+  carousel.addEventListener("click", (event) => {
+    const item = event.target instanceof Element
+      ? event.target.closest(".skills-carousel-item")
+      : null;
+
+    if (!(item instanceof HTMLElement) || dragDistance > 8) {
+      return;
+    }
+
+    event.stopPropagation();
+    openSkillPopover(item);
+  });
+
+  carousel.addEventListener("focusin", (event) => {
+    const item = event.target instanceof Element
+      ? event.target.closest(".skills-carousel-item")
+      : null;
+
+    if (item instanceof HTMLElement && !item.hasAttribute("aria-hidden")) {
+      openSkillPopover(item);
+    }
+  });
+
+  carousel.addEventListener("focusout", (event) => {
+    if (event.relatedTarget instanceof Node && carousel.contains(event.relatedTarget)) {
+      return;
+    }
+
+    closeSkillPopover();
+  });
+
+  document.addEventListener("click", (event) => {
+    if (event.target instanceof Node && container.contains(event.target)) {
+      return;
+    }
+
+    closeSkillPopover();
+  });
+
   container.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+      closeSkillPopover();
+      return;
+    }
+
     if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") {
       return;
     }
@@ -1548,6 +1773,10 @@ function populateCarousel() {
 
   document.addEventListener("visibilitychange", () => {
     lastTime = performance.now();
+  });
+
+  window.addEventListener("languagechange", () => {
+    updateSkillPopoverCopy(carousel);
   });
 }
 
