@@ -511,128 +511,54 @@ main {
 
 .hero {
   display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: 28px;
+  grid-template-columns: minmax(0, 1fr) minmax(260px, 0.42fr);
+  gap: 42px;
   align-items: center;
   padding-top: 48px;
 }
 
-.hero-visual {
-  border-radius: var(--radius-lg);
-  padding: 20px;
+.profile-picture-section {
+  display: flex;
+  justify-content: center;
+}
+
+.profile-picture-frame {
+  width: clamp(220px, 28vw, 340px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  padding: clamp(8px, 1.2vw, 12px);
   position: relative;
   overflow: hidden;
-  min-height: 280px;
   background:
-    linear-gradient(145deg, rgba(255, 255, 255, 0.8), rgba(244, 249, 255, 0.66) 46%, rgba(255, 255, 255, 0.5)),
-    radial-gradient(circle at 0% 110%, rgba(10, 132, 255, 0.18), transparent 56%);
-  box-shadow: 0 26px 66px rgba(13, 29, 48, 0.18);
+    linear-gradient(150deg, rgba(255, 255, 255, 0.92), rgba(244, 249, 255, 0.72)),
+    radial-gradient(circle at 24% 12%, rgba(10, 132, 255, 0.22), transparent 48%);
+  border: 1px solid rgba(255, 255, 255, 0.76);
+  box-shadow: 0 30px 72px rgba(13, 29, 48, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.76);
 }
 
-:root[data-theme="dark"] .hero-visual {
+:root[data-theme="dark"] .profile-picture-frame {
   background:
-    linear-gradient(145deg, rgba(20, 23, 28, 0.92), rgba(16, 18, 23, 0.7) 46%, rgba(12, 14, 18, 0.6)),
-    radial-gradient(circle at 0% 110%, rgba(108, 182, 255, 0.18), transparent 56%);
-  box-shadow: 0 26px 66px rgba(0, 0, 0, 0.4);
+    linear-gradient(150deg, rgba(28, 32, 38, 0.92), rgba(15, 18, 23, 0.72)),
+    radial-gradient(circle at 24% 12%, rgba(108, 182, 255, 0.22), transparent 48%);
+  border-color: rgba(255, 255, 255, 0.16);
+  box-shadow: 0 30px 72px rgba(0, 0, 0, 0.42), inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
-.hero-visual::after {
+.profile-picture-frame::after {
   content: "";
   position: absolute;
-  inset: 0;
-  background: linear-gradient(120deg, rgba(255, 255, 255, 0.45), transparent 45%);
+  inset: 8px;
+  border-radius: inherit;
+  border: 1px solid rgba(255, 255, 255, 0.55);
   pointer-events: none;
 }
 
-.hero-visual-header {
-  display: flex;
-  gap: 7px;
-}
-
-.hero-visual-header span {
-  width: 9px;
-  height: 9px;
-  border-radius: 999px;
-  background: rgba(17, 17, 17, 0.22);
-}
-
-:root[data-theme="dark"] .hero-visual-header span {
-  background: rgba(255, 255, 255, 0.25);
-}
-
-.hero-visual-title {
-  margin: 14px 0 12px;
-  letter-spacing: 0.08em;
-  font-size: 0.78rem;
-  text-transform: uppercase;
-  color: var(--muted);
-}
-
-.hero-visual-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  margin-bottom: 16px;
-}
-
-.hero-visual-grid p {
-  margin: 0;
-  border-radius: 12px;
-  padding: 9px 10px;
-  font-size: 0.82rem;
-  background: rgba(255, 255, 255, 0.6);
-  border: 1px solid rgba(255, 255, 255, 0.72);
-  color: var(--muted);
-}
-
-:root[data-theme="dark"] .hero-visual-grid p {
-  background: rgba(255, 255, 255, 0.05);
-  border-color: rgba(255, 255, 255, 0.12);
-}
-
-.hero-visual-grid strong {
-  color: var(--text);
-  font-weight: 500;
-}
-
-.hero-visual-lines {
-  display: grid;
-  gap: 8px;
-}
-
-.hero-visual-lines span {
-  display: block;
-  height: 8px;
-  border-radius: 999px;
-  background: linear-gradient(90deg, rgba(10, 132, 255, 0.18), rgba(17, 17, 17, 0.06));
-  transform-origin: left;
-  animation: pulse-line 3.6s ease-in-out infinite;
-}
-
-:root[data-theme="dark"] .hero-visual-lines span {
-  background: linear-gradient(90deg, rgba(108, 182, 255, 0.35), rgba(255, 255, 255, 0.12));
-}
-
-.hero-visual-lines .line-two {
-  width: 86%;
-  animation-delay: 240ms;
-}
-
-.hero-visual-lines .line-three {
-  width: 72%;
-  animation-delay: 480ms;
-}
-
-@keyframes pulse-line {
-  0%,
-  100% {
-    opacity: 0.55;
-    transform: scaleX(0.96);
-  }
-  50% {
-    opacity: 1;
-    transform: scaleX(1);
-  }
+.profile-picture-frame img {
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  object-fit: cover;
+  object-position: center 35%;
 }
 
 .hero-copy h1,
@@ -1793,8 +1719,8 @@ main {
     max-width: 9ch;
   }
 
-  .hero-visual {
-    min-height: 240px;
+  .profile-picture-section {
+    justify-content: flex-start;
   }
 
   .about-grid {
@@ -1871,13 +1797,8 @@ main {
     gap: 18px;
   }
 
-  .hero-visual {
-    padding: 16px;
-    min-height: 210px;
-  }
-
-  .hero-visual-grid {
-    grid-template-columns: 1fr;
+  .profile-picture-frame {
+    width: min(72vw, 260px);
   }
 
   .hero-copy h1 {
@@ -2016,7 +1937,6 @@ main {
     animation: none;
   }
 
-  .hero-visual-lines span,
   .nav-progress-fill,
   .project-image img,
   .skills-carousel-track {

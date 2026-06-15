@@ -37,15 +37,6 @@ const I18N = {
     heroLede: "Computer Engineering student focused on cloud-native systems and backend development. I build scalable, fault-tolerant infrastructure with Kubernetes, OpenStack, and CI/CD pipelines.",
     heroViewProjects: "View projects",
     heroContact: "Contact",
-    heroVisualTitle: "profile.snapshot",
-    heroVisualFocusLabel: "Focus:",
-    heroVisualFocusValue: "Cloud Engineering",
-    heroVisualStackLabel: "Stack:",
-    heroVisualStackValue: "Kubernetes, OpenStack, Docker",
-    heroVisualLocationLabel: "Location:",
-    heroVisualLocationValue: "Turkey (Remote-friendly)",
-    heroVisualAvailabilityLabel: "Availability:",
-    heroVisualAvailabilityValue: "Open to internships and junior roles",
     aboutEyebrow: "About",
     aboutHeading: "Cloud engineering and backend delivery, grounded in production practice.",
     aboutCard1Title: "Cloud and Platform",
@@ -118,15 +109,6 @@ const I18N = {
     heroLede: "Bulut-yerel sistemler ve backend geliştirme odaklı bir Bilgisayar Mühendisliği öğrencisiyim. Kubernetes, OpenStack ve CI/CD hatlarıyla ölçeklenebilir, hataya dayanıklı altyapılar geliştiriyorum.",
     heroViewProjects: "Projeleri gör",
     heroContact: "İletişim",
-    heroVisualTitle: "profile.snapshot",
-    heroVisualFocusLabel: "Odak:",
-    heroVisualFocusValue: "Bulut Mühendisliği",
-    heroVisualStackLabel: "Yığın:",
-    heroVisualStackValue: "Kubernetes, OpenStack, Docker",
-    heroVisualLocationLabel: "Konum:",
-    heroVisualLocationValue: "Türkiye (Uzaktan çalışmaya uygun)",
-    heroVisualAvailabilityLabel: "Uygunluk:",
-    heroVisualAvailabilityValue: "Staj ve junior roller için açığım",
     aboutEyebrow: "Hakkımda",
     aboutHeading: "Üretim pratiğiyle şekillenen bulut mühendisliği ve backend teslimatı.",
     aboutCard1Title: "Bulut ve Platform",
@@ -287,33 +269,50 @@ const SHOWCASE_PROJECTS = [
     url: "https://github.com/crossplane-contrib/crossview",
     prUrl: "https://github.com/crossplane-contrib/crossview/pull/205",
   },
-  {
-    name: "url health sentinel",
-    description: {
-      en: "A lightweight monitoring project for URL availability and health checks.",
-      tr: "URL erişilebilirliği ve sağlık kontrolleri için hafif bir izleme projesi.",
-    },
-    thumbnail: "assets/url-health-sentinel.png",
-    labels: {
-      en: ["Monitoring", "Uptime", "Web"],
-      tr: ["İzleme", "Çalışma Süresi", "Web"],
-    },
-    role: {
-      en: "Builder",
-      tr: "Geliştirici",
-    },
-    outcome: {
-      en: "Simple endpoint health status visibility",
-      tr: "Basit endpoint sağlık görünürlüğü",
-    },
-    language: "HTML",
-    updatedAt: "2026-02-01",
-    visibility: "public",
-    url: "https://github.com/Berk-Unsal/url-health-sentinel",
-  },
 ];
 
 const EXPERIENCE_ITEMS = [
+  {
+    role: {
+      en: "Software Engineering Intern",
+      tr: "Yazılım Mühendisliği Stajyeri",
+    },
+    company: "MedData Information Communications Systems",
+    companyUrl: "https://www.meddata.com.tr/",
+    companyLogo: "assets/companies/meddata.png",
+    period: {
+      en: "Jun 2026 - Present",
+      tr: "Haz 2026 - Günümüz",
+    },
+    metrics: [
+      {
+        value: "HBYS",
+        caption: {
+          en: "Hospital Information Management System database work",
+          tr: "Hastane Bilgi Yönetim Sistemi veritabanı çalışmaları",
+        },
+      },
+      {
+        value: "SQL",
+        caption: {
+          en: "PostgreSQL and Oracle performance optimization",
+          tr: "PostgreSQL ve Oracle performans optimizasyonu",
+        },
+      },
+    ],
+    highlights: {
+      en: [
+        "Optimized large-scale PostgreSQL and Oracle databases for a Hospital Information Management System (HBYS).",
+        "Restructured database schemas in collaboration with senior engineers to improve maintainability and query performance.",
+        "Supported performance-focused improvements across healthcare data workflows.",
+      ],
+      tr: [
+        "Hastane Bilgi Yönetim Sistemi (HBYS) için büyük ölçekli PostgreSQL ve Oracle veritabanlarını optimize etti.",
+        "Kıdemli mühendislerle birlikte veritabanı şemalarını yeniden yapılandırarak bakım kolaylığını ve sorgu performansını iyileştirdi.",
+        "Sağlık verisi iş akışlarında performans odaklı iyileştirmelere destek verdi.",
+      ],
+    },
+  },
   {
     role: {
       en: "Cloud Engineering Intern",
@@ -676,15 +675,6 @@ function applyStaticTranslations() {
   setText("hero-lede", t("heroLede"));
   setText("hero-view-projects", t("heroViewProjects"));
   setText("hero-contact", t("heroContact"));
-  setText("hero-visual-title", t("heroVisualTitle"));
-  setText("hero-visual-focus-label", t("heroVisualFocusLabel"));
-  setText("hero-visual-focus-value", t("heroVisualFocusValue"));
-  setText("hero-visual-stack-label", t("heroVisualStackLabel"));
-  setText("hero-visual-stack-value", t("heroVisualStackValue"));
-  setText("hero-visual-location-label", t("heroVisualLocationLabel"));
-  setText("hero-visual-location-value", t("heroVisualLocationValue"));
-  setText("hero-visual-availability-label", t("heroVisualAvailabilityLabel"));
-  setText("hero-visual-availability-value", t("heroVisualAvailabilityValue"));
   setText("about-eyebrow", t("aboutEyebrow"));
   setText("about-heading", t("aboutHeading"));
   setText("about-card-1-title", t("aboutCard1Title"));
