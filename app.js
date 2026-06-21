@@ -194,6 +194,7 @@ const SHOWCASE_PROJECTS = [
     visibility: "public",
     url: "https://github.com/Berk-Unsal/OpsCommand",
     previewVideoUrl: "assets/demo-videos/opscommand-preview.mp4",
+    previewPosterUrl: "assets/demo-videos/opscommand-poster.jpg",
     docsUrl: "https://opscommand.berkunsal.com",
   },
   {
@@ -203,6 +204,7 @@ const SHOWCASE_PROJECTS = [
       tr: "Yoğun kentsel ortamlarda 4G LTE, 5G mmWave ve 6G Sub-THz hücresel ağlarını görselleştirmek ve optimize etmek için full-stack mekansal simülasyon motoru.",
     },
     previewVideoUrl: "assets/demo-videos/atom-preview.mp4",
+    previewPosterUrl: "assets/demo-videos/atom-poster.jpg",
     labels: {
       en: ["Telecom", "RF Simulation", "Geospatial"],
       tr: ["Telekom", "RF Simülasyonu", "Coğrafi"],
@@ -434,6 +436,7 @@ const certificatesGrid = document.getElementById("certificates-grid");
 const pdfModal = document.getElementById("pdf-modal");
 const pdfModalClose = document.getElementById("pdf-modal-close");
 let revealObserver = null;
+let previewVideoObserver = null;
 let currentLanguage = "en";
 let currentTheme = "light";
 
@@ -519,6 +522,22 @@ function detectInitialTheme() {
 
 function t(key) {
   return I18N[currentLanguage]?.[key] ?? I18N.en[key] ?? key;
+}
+
+function loadPreviewVideo(video) {
+  if (!(video instanceof HTMLVideoElement) || video.dataset.loaded === "true") {
+    return;
+  }
+
+  const source = video.dataset.src;
+  if (!source) {
+    return;
+  }
+
+  video.src = source;
+  video.dataset.loaded = "true";
+  video.load();
+  video.play().catch(() => {});
 }
 
 function openPdfModal(pdfUrl, title) {
@@ -704,12 +723,19 @@ function buildProjectCard(project, index) {
   if (project.previewVideoUrl) {
     const previewVideo = document.createElement("video");
     previewVideo.className = "project-media-video";
-    previewVideo.src = project.previewVideoUrl;
     previewVideo.muted = true;
+    previewVideo.defaultMuted = true;
     previewVideo.loop = true;
     previewVideo.autoplay = true;
     previewVideo.playsInline = true;
-    previewVideo.preload = index === 0 ? "auto" : "metadata";
+    previewVideo.preload = "none";
+    previewVideo.dataset.src = project.previewVideoUrl;
+    if (project.previewPosterUrl) {
+      previewVideo.poster = project.previewPosterUrl;
+    }
+    previewVideo.setAttribute("muted", "");
+    previewVideo.setAttribute("playsinline", "");
+    previewVideo.setAttribute("webkit-playsinline", "");
     previewVideo.setAttribute("aria-label", `${project.name} demo preview`);
     image.appendChild(previewVideo);
   } else if (project.thumbnail) {
@@ -959,6 +985,7 @@ function loadShowcaseProjects() {
   });
 
   projectsGrid.appendChild(fragment);
+  observePreviewVideos();
 
   // Defer observing until DOM has painted and layout is stable
   setTimeout(observeReveals, 100);
@@ -1266,6 +1293,30 @@ function observeReveals() {
       }
     });
   }, 1500);
+}
+
+function observePreviewVideos() {
+  const videos = document.querySelectorAll(".project-media-video[data-src]");
+
+  if (previewVideoObserver) {
+    previewVideoObserver.disconnect();
+  }
+
+  if (!("IntersectionObserver" in window)) {
+    videos.forEach(loadPreviewVideo);
+    return;
+  }
+
+  previewVideoObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting || entry.intersectionRatio > 0) {
+        loadPreviewVideo(entry.target);
+        previewVideoObserver?.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0, rootMargin: "360px 0px" });
+
+  videos.forEach((video) => previewVideoObserver.observe(video));
 }
 
 function initLiquidCursor() {
