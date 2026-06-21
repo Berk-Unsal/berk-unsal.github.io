@@ -81,7 +81,7 @@ const I18N = {
     updated: "Updated",
     viewRepo: "View repo",
     viewDemo: "View demo",
-    watchDemo: "Watch demo",
+    viewDocs: "View docs",
     viewPr: "View PR",
     rolePrefix: "Role",
     outcomePrefix: "Outcome",
@@ -153,7 +153,7 @@ const I18N = {
     updated: "Güncellendi",
     viewRepo: "Repoyu gör",
     viewDemo: "Demoyu gör",
-    watchDemo: "Demoyu izle",
+    viewDocs: "Dokümanları gör",
     viewPr: "PR\"ı gör",
     rolePrefix: "Rol",
     outcomePrefix: "Çıktı",
@@ -193,32 +193,34 @@ const SHOWCASE_PROJECTS = [
     updatedAt: "2026-04-01",
     visibility: "public",
     url: "https://github.com/Berk-Unsal/OpsCommand",
-    demoVideoUrl: "assets/demo-videos/OpsCommand-Demo Video.mp4",
+    previewVideoUrl: "assets/demo-videos/opscommand-preview.mp4",
+    docsUrl: "https://opscommand.berkunsal.com",
   },
   {
-    name: "Interactable Injury Informer",
+    name: "A.T.O.M",
     description: {
-      en: "A web app that allows users to interact with an anatomy diagram to learn about potential injuries in different muscle groups.",
-      tr: "Kullanıcıların çeşitli kas gruplarındaki olası yaralanmaları öğrenmek için anatomi şemasıyla etkileşime girmesini sağlayan bir web uygulaması.",
+      en: "Full-stack spatial simulation engine for visualizing and optimizing 4G LTE, 5G mmWave, and 6G Sub-THz cellular networks in dense urban environments.",
+      tr: "Yoğun kentsel ortamlarda 4G LTE, 5G mmWave ve 6G Sub-THz hücresel ağlarını görselleştirmek ve optimize etmek için full-stack mekansal simülasyon motoru.",
     },
-    thumbnail: "assets/injury-finder.png",
+    previewVideoUrl: "assets/demo-videos/atom-preview.mp4",
     labels: {
-      en: ["React", "Interactive", "Web App"],
-      tr: ["React", "İnteraktif", "Web App"],
+      en: ["Telecom", "RF Simulation", "Geospatial"],
+      tr: ["Telekom", "RF Simülasyonu", "Coğrafi"],
     },
     role: {
-      en: "Developer",
-      tr: "Geliştirici",
+      en: "Full-stack Engineer",
+      tr: "Full-stack Mühendis",
     },
     outcome: {
-      en: "Interactive medical exploration tool",
-      tr: "Etkileşimli tıbbi keşif aracı",
+      en: "Coverage prediction and antenna placement validation for urban networks",
+      tr: "Kentsel ağlar için kapsama tahmini ve anten yerleşimi doğrulama",
     },
-    language: "JavaScript",
-    updatedAt: "2026-04-25",
+    language: "Full-stack",
+    updatedAt: "2026-06-21",
     visibility: "public",
-    url: "https://github.com/Berk-Unsal/Interactable-Injury-Informer",
-    demoUrl: "https://injury-finder-by-berkunsal.netlify.app/",
+    url: "https://github.com/Berk-Unsal/atom",
+    demoUrl: "https://atom.berkunsal.com",
+    docsUrl: "https://berkunsal.com/atom",
   },
   {
     name: "Python Algorithmic Trading Bot",
@@ -429,25 +431,11 @@ const CERTIFICATES = [
 const projectsGrid = document.getElementById("projects-grid");
 const experienceGrid = document.getElementById("experience-grid");
 const certificatesGrid = document.getElementById("certificates-grid");
-const videoModal = document.getElementById("video-modal");
-const videoModalClose = document.getElementById("video-modal-close");
 const pdfModal = document.getElementById("pdf-modal");
 const pdfModalClose = document.getElementById("pdf-modal-close");
 let revealObserver = null;
 let currentLanguage = "en";
 let currentTheme = "light";
-
-if (videoModalClose) {
-  videoModalClose.addEventListener("click", closeVideoModal);
-}
-
-if (videoModal) {
-  videoModal.addEventListener("click", (e) => {
-    if (e.target === videoModal) {
-      closeVideoModal();
-    }
-  });
-}
 
 if (pdfModalClose) {
   pdfModalClose.addEventListener("click", closePdfModal);
@@ -531,30 +519,6 @@ function detectInitialTheme() {
 
 function t(key) {
   return I18N[currentLanguage]?.[key] ?? I18N.en[key] ?? key;
-}
-
-function openVideoModal(videoUrl) {
-  const modal = document.getElementById("video-modal");
-  const videoSource = document.getElementById("video-source");
-  const videoPlayer = document.getElementById("video-player");
-  
-  if (modal && videoSource && videoPlayer) {
-    videoSource.src = videoUrl;
-    videoPlayer.load();
-    modal.style.display = "flex";
-    videoPlayer.play();
-  }
-}
-
-function closeVideoModal() {
-  const modal = document.getElementById("video-modal");
-  const videoPlayer = document.getElementById("video-player");
-  
-  if (modal && videoPlayer) {
-    modal.style.display = "none";
-    videoPlayer.pause();
-    videoPlayer.currentTime = 0;
-  }
 }
 
 function openPdfModal(pdfUrl, title) {
@@ -737,7 +701,18 @@ function buildProjectCard(project, index) {
   const image = document.createElement("div");
   image.className = "project-image";
 
-  if (project.thumbnail) {
+  if (project.previewVideoUrl) {
+    const previewVideo = document.createElement("video");
+    previewVideo.className = "project-media-video";
+    previewVideo.src = project.previewVideoUrl;
+    previewVideo.muted = true;
+    previewVideo.loop = true;
+    previewVideo.autoplay = true;
+    previewVideo.playsInline = true;
+    previewVideo.preload = index === 0 ? "auto" : "metadata";
+    previewVideo.setAttribute("aria-label", `${project.name} demo preview`);
+    image.appendChild(previewVideo);
+  } else if (project.thumbnail) {
     const thumbnail = document.createElement("img");
     thumbnail.src = project.thumbnail;
     thumbnail.alt = `${project.name} thumbnail`;
@@ -803,6 +778,15 @@ function buildProjectCard(project, index) {
     links.appendChild(demoLink);
   }
 
+  if (project.docsUrl) {
+    const docsLink = document.createElement("a");
+    docsLink.href = project.docsUrl;
+    docsLink.target = "_blank";
+    docsLink.rel = "noreferrer";
+    docsLink.textContent = t("viewDocs");
+    links.appendChild(docsLink);
+  }
+
   if (project.prUrl) {
     const prLink = document.createElement("a");
     prLink.href = project.prUrl;
@@ -810,19 +794,6 @@ function buildProjectCard(project, index) {
     prLink.rel = "noreferrer";
     prLink.textContent = t("viewPr");
     links.appendChild(prLink);
-  }
-
-  if (project.demoVideoUrl) {
-    const watchDemoButton = document.createElement("button");
-    watchDemoButton.type = "button";
-    watchDemoButton.className = project.name === "OpsCommand"
-      ? "project-link-button watch-demo-glow"
-      : "project-link-button";
-    watchDemoButton.textContent = t("watchDemo");
-    watchDemoButton.addEventListener("click", () => {
-      openVideoModal(project.demoVideoUrl);
-    });
-    links.appendChild(watchDemoButton);
   }
 
   card.append(image, header, description, meta, labelsRow, highlights, links);
@@ -1314,7 +1285,7 @@ function initLiquidCursor() {
   document.body.classList.add("cursor-enhanced");
 
   const interactiveSelector = "a, button, .button, .social-link";
-  const magnifySelector = ".project-image img, .social-link img";
+  const magnifySelector = ".project-image img, .project-image video, .social-link img";
   let pointerVisible = false;
   let magnifiedTarget = null;
   let cursorEnabled = true;
