@@ -3,32 +3,30 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Minimalist portfolio focused on cloud engineering, backend work, and selected GitHub projects." />
-    <meta name="theme-color" content="#f5f5f2" />
+    <meta name="description" content="Project-led cloud and backend portfolio for platform engineering recruiters." />
+    <meta name="theme-color" content="#f4f7f5" />
     <title>Berk Ünsal | Portfolio</title>
     <link rel="preload" as="image" href="assets/pfp.png" />
-    <link rel="preload" as="image" href="assets/opscommand.png" />
+    <link rel="preload" as="image" href="assets/demo-videos/atom-poster.jpg" />
+    <link rel="preload" as="image" href="assets/demo-videos/opscommand-poster.jpg" />
     <link rel="icon" href="assets/website-icon.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@400;500;700&display=swap" />
-    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&display=swap" />
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
     <noscript>
-      <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet" />
+      <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
     </noscript>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <div class="ambient ambient-left"></div>
-    <div class="ambient ambient-right"></div>
-
     <header class="topbar">
       <a class="brand" href="#hero">Berk Ünsal</a>
       <nav class="nav">
         <span class="nav-progress" aria-hidden="true"><span class="nav-progress-fill"></span></span>
-        <a class="nav-link" id="nav-about" href="#about">About</a>
-        <a class="nav-link" id="nav-experience" href="#experience">Experience</a>
         <a class="nav-link" id="nav-projects" href="#projects">Projects</a>
+        <a class="nav-link" id="nav-experience" href="#experience">Experience</a>
+        <a class="nav-link" id="nav-about" href="#about">Skills</a>
         <a class="nav-link" id="nav-certificates" href="#certificates">Certificates</a>
         <a class="nav-link" id="nav-contact" href="#contact">Contact</a>
       </nav>
@@ -80,28 +78,75 @@
     <main>
       <section class="hero section reveal" id="hero">
         <div class="hero-copy">
-          <p class="eyebrow" id="hero-eyebrow">Portfolio</p>
+          <p class="eyebrow hero-kicker" id="hero-eyebrow">Cloud/backend portfolio</p>
           <h1>Berk Ünsal</h1>
+          <p class="hero-role" id="hero-role">Platform-minded backend engineer building systems you can inspect.</p>
           <p class="lede" id="hero-lede">
-            Computer Engineering student focused on cloud-native systems and backend development. I build scalable,
-            fault-tolerant infrastructure with Kubernetes, OpenStack, and CI/CD pipelines.
+            I turn cloud infrastructure, APIs, and operational tooling into working proof: Kubernetes workflows,
+            RF network simulation, automated delivery, and measurable backend performance.
           </p>
           <div class="hero-actions">
             <a class="button button-primary" id="hero-view-projects" href="#projects">View projects</a>
-            <a class="button button-secondary" id="hero-contact" href="#contact">Contact</a>
+            <a class="button button-secondary" id="hero-contact" href="#cv-request">Contact</a>
           </div>
+          <dl class="hero-proof" aria-label="Portfolio proof points">
+            <div>
+              <dt id="hero-proof-1-title">Kubernetes + OpenStack</dt>
+              <dd id="hero-proof-1-body">Private cloud and cluster operations</dd>
+            </div>
+            <div>
+              <dt id="hero-proof-2-title">Backend delivery</dt>
+              <dd id="hero-proof-2-body">APIs, caching, CI/CD, SQL performance</dd>
+            </div>
+            <div>
+              <dt id="hero-proof-3-title">Inspectable projects</dt>
+              <dd id="hero-proof-3-body">Demos, docs, repositories, project media</dd>
+            </div>
+          </dl>
         </div>
-        <div class="profile-picture-section" aria-label="Profile picture">
-          <div class="profile-picture-frame">
-            <img src="assets/pfp.png" alt="Berk Ünsal" width="768" height="1364" decoding="async" fetchpriority="high" />
+        <div class="hero-atlas" aria-label="Featured project evidence">
+          <a class="atlas-panel atlas-panel-map" href="https://atom.berkunsal.com" target="_blank" rel="noopener noreferrer">
+            <img src="assets/demo-videos/atom-poster.jpg" alt="A.T.O.M radio coverage simulation map" width="1260" height="720" decoding="async" fetchpriority="high" />
+            <span id="atlas-atom-label">A.T.O.M / urban RF coverage</span>
+          </a>
+          <a class="atlas-panel atlas-panel-terminal" href="https://opscommand.berkunsal.com" target="_blank" rel="noopener noreferrer">
+            <img src="assets/demo-videos/opscommand-poster.jpg" alt="OpsCommand Kubernetes terminal interface" width="1260" height="720" decoding="async" fetchpriority="high" />
+            <span id="atlas-ops-label">OpsCommand / cluster operations</span>
+          </a>
+          <div class="atlas-profile">
+            <img src="assets/pfp.png" alt="Berk Ünsal" width="768" height="1364" decoding="async" />
+            <div>
+              <span id="atlas-profile-label">Available for cloud/backend roles</span>
+              <strong id="atlas-profile-location">Ankara / Istanbul / Remote</strong>
+            </div>
           </div>
         </div>
       </section>
 
+      <section class="section projects reveal" id="projects">
+        <div class="section-heading projects-heading">
+          <div>
+            <p class="eyebrow" id="projects-eyebrow">Project proof</p>
+            <h2 id="projects-heading">Systems with demos, docs, and repos attached.</h2>
+          </div>
+          <p class="projects-note" id="projects-note">OpsCommand and A.T.O.M lead the story: real interfaces, inspectable documentation, and backend/platform engineering depth.</p>
+        </div>
+
+        <div class="projects-grid" id="projects-grid" aria-live="polite"></div>
+      </section>
+
+      <section class="section experience reveal" id="experience">
+        <div class="section-heading section-heading-solo">
+          <p class="eyebrow" id="experience-eyebrow">Engineering record</p>
+          <h2 id="experience-heading">Internships with measurable backend and cloud impact.</h2>
+        </div>
+        <div class="experience-grid" id="experience-grid" aria-live="polite"></div>
+      </section>
+
       <section class="section about reveal" id="about">
-        <div class="section-heading">
-          <p class="eyebrow" id="about-eyebrow">About</p>
-          <h2 id="about-heading">Cloud engineering and backend delivery, grounded in production practice.</h2>
+        <div class="section-heading section-heading-solo">
+          <p class="eyebrow" id="about-eyebrow">Capability map</p>
+          <h2 id="about-heading">The toolchain behind the proof.</h2>
         </div>
         <div class="skills-carousel-container" id="skills-carousel-container" role="region" aria-label="Skills carousel" tabindex="0">
           <p class="sr-only">Swipe or drag to explore skills. The carousel auto-scrolls and can be controlled with arrow keys.</p>
@@ -131,31 +176,11 @@
         </div>
       </section>
 
-      <section class="section experience reveal" id="experience">
-        <div class="section-heading">
-          <p class="eyebrow" id="experience-eyebrow">Experience</p>
-          <h2 id="experience-heading">Internships with measurable backend and cloud impact.</h2>
-        </div>
-        <div class="experience-grid" id="experience-grid" aria-live="polite"></div>
-      </section>
-
-      <section class="section projects reveal" id="projects">
-        <div class="section-heading projects-heading">
-          <div>
-            <p class="eyebrow" id="projects-eyebrow">Projects</p>
-            <h2 id="projects-heading">Selected projects and open-source work.</h2>
-          </div>
-          <p class="projects-note" id="projects-note">A focused set of repositories aligned with cloud, backend, and platform engineering.</p>
-        </div>
-
-        <div class="projects-grid" id="projects-grid" aria-live="polite"></div>
-      </section>
-
       <section class="section certificates reveal" id="certificates">
         <div class="section-heading">
           <div>
-            <p class="eyebrow" id="certificates-eyebrow">Certificates</p>
-            <h2 id="certificates-heading">Professional certificates and coursework.</h2>
+            <p class="eyebrow" id="certificates-eyebrow">Verification</p>
+            <h2 id="certificates-heading">Certificates and coursework that support the stack.</h2>
           </div>
           <p class="projects-note" id="certificates-note">Click a certificate to preview the PDF.</p>
         </div>
@@ -168,14 +193,14 @@
           <div class="contact-card glass">
             <div>
               <p class="eyebrow" id="contact-eyebrow">Contact</p>
-              <h2 id="contact-heading">Open to cloud and backend opportunities.</h2>
+              <h2 id="contact-heading">Ready to discuss cloud and backend roles.</h2>
               <p id="contact-body">
                 You can review my repositories and connect with me through the social links below.
               </p>
             </div>
             <a class="button button-primary" id="contact-back-to-top" href="#hero">Back to top</a>
           </div>
-          <div class="cv-request-card glass">
+          <div class="cv-request-card glass" id="cv-request">
             <div class="cv-request-intro">
               <p class="eyebrow" id="cv-eyebrow">Request my CV</p>
               <h2 id="cv-heading">Need my full CV for a role or collaboration?</h2>

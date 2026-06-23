@@ -3,8 +3,8 @@ const THEME_STORAGE_KEY = "siteTheme";
 const SUPPORTED_LANGUAGES = ["en", "tr"];
 const SUPPORTED_THEMES = ["light", "dark"];
 const THEME_COLORS = {
-  light: "#f5f5f2",
-  dark: "#0d0f12",
+  light: "#f4f7f5",
+  dark: "#111719",
 };
 
 const SKILLS = [
@@ -24,7 +24,7 @@ const SKILLS = [
 
 const I18N = {
   en: {
-    navAbout: "About",
+    navAbout: "Skills",
     navExperience: "Experience",
     navProjects: "Projects",
     navCertificates: "Certificates",
@@ -33,34 +33,45 @@ const I18N = {
     themeLight: "Light",
     themeToggleDark: "Switch to dark mode",
     themeToggleLight: "Switch to light mode",
-    heroEyebrow: "Portfolio",
-    heroLede: "Computer Engineering student focused on cloud-native systems and backend development. I build scalable, fault-tolerant infrastructure with Kubernetes, OpenStack, and CI/CD pipelines.",
-    heroViewProjects: "View projects",
-    heroContact: "Contact",
-    aboutEyebrow: "About",
-    aboutHeading: "Cloud engineering and backend delivery, grounded in production practice.",
+    heroEyebrow: "Cloud/backend portfolio",
+    heroRole: "Platform-minded backend engineer building systems you can inspect.",
+    heroLede: "I turn cloud infrastructure, APIs, and operational tooling into working proof: Kubernetes workflows, RF network simulation, automated delivery, and measurable backend performance.",
+    heroViewProjects: "Inspect projects",
+    heroContact: "Request CV",
+    heroProof1Title: "Kubernetes + OpenStack",
+    heroProof1Body: "Private cloud and cluster operations",
+    heroProof2Title: "Backend delivery",
+    heroProof2Body: "APIs, caching, CI/CD, SQL performance",
+    heroProof3Title: "Inspectable projects",
+    heroProof3Body: "Demos, docs, repositories, project media",
+    atlasAtomLabel: "A.T.O.M / urban RF coverage",
+    atlasOpsLabel: "OpsCommand / cluster operations",
+    atlasProfileLabel: "Available for cloud/backend roles",
+    atlasProfileLocation: "Ankara / Istanbul / Remote",
+    aboutEyebrow: "Capability map",
+    aboutHeading: "The toolchain behind the proof.",
     aboutCard1Title: "Cloud and Platform",
     aboutCard1Body: "Hands-on with Kubernetes, OpenStack, Docker, and AWS EC2 to design and operate resilient systems.",
     aboutCard2Title: "Backend Engineering",
     aboutCard2Body: "Building RESTful APIs with Python, improving latency with Redis, and maintaining reliable SQL-backed services.",
     aboutCard3Title: "Delivery and Tooling",
     aboutCard3Body: "Automating releases with GitHub Actions and standardizing infrastructure workflows across Dev, Test, and Production.",
-    experienceEyebrow: "Experience",
+    experienceEyebrow: "Engineering record",
     experienceHeading: "Internships with measurable backend and cloud impact.",
     experienceBadge: "Internship",
     experienceHighlightsTitle: "Highlights",
-    projectsEyebrow: "Projects",
-    projectsHeading: "Selected projects and open-source work.",
-    projectsNote: "A focused set of repositories aligned with cloud, backend, and platform engineering.",
-    certificatesEyebrow: "Certificates",
-    certificatesHeading: "Professional certificates and coursework.",
+    projectsEyebrow: "Project proof",
+    projectsHeading: "Systems with demos, docs, and repos attached.",
+    projectsNote: "OpsCommand and A.T.O.M lead the story: real interfaces, inspectable documentation, and backend/platform engineering depth.",
+    certificatesEyebrow: "Verification",
+    certificatesHeading: "Certificates and coursework that support the stack.",
     certificatesNote: "Click a certificate to preview the PDF.",
     certificateOpen: "View PDF",
     certificateModalTitle: "Certificate",
     certificateOpenNewTab: "Open in new tab",
     issuedLabel: "Issued",
     contactEyebrow: "Contact",
-    contactHeading: "Open to cloud and backend opportunities.",
+    contactHeading: "Ready to discuss cloud and backend roles.",
     contactBody: "You can review my repositories and connect with me through the links in the top bar.",
     cvEyebrow: "Request my CV",
     cvHeading: "Need my full CV for a role or collaboration?",
@@ -93,10 +104,10 @@ const I18N = {
       repo: "repo",
     },
     pageTitle: "Berk Ünsal | Portfolio",
-    pageDescription: "Minimalist portfolio focused on cloud engineering, backend work, and selected GitHub projects.",
+    pageDescription: "Project-led cloud and backend portfolio for platform engineering recruiters.",
   },
   tr: {
-    navAbout: "Hakkımda",
+    navAbout: "Yetenekler",
     navExperience: "Deneyim",
     navProjects: "Projeler",
     navCertificates: "Sertifikalar",
@@ -105,34 +116,45 @@ const I18N = {
     themeLight: "Aydınlık",
     themeToggleDark: "Karanlık moda geç",
     themeToggleLight: "Aydınlık moda geç",
-    heroEyebrow: "Portföy",
-    heroLede: "Bulut-yerel sistemler ve backend geliştirme odaklı bir Bilgisayar Mühendisliği öğrencisiyim. Kubernetes, OpenStack ve CI/CD hatlarıyla ölçeklenebilir, hataya dayanıklı altyapılar geliştiriyorum.",
-    heroViewProjects: "Projeleri gör",
-    heroContact: "İletişim",
-    aboutEyebrow: "Hakkımda",
-    aboutHeading: "Üretim pratiğiyle şekillenen bulut mühendisliği ve backend teslimatı.",
+    heroEyebrow: "Bulut/backend portföyü",
+    heroRole: "İncelenebilir sistemler geliştiren platform odaklı backend mühendisi.",
+    heroLede: "Bulut altyapısı, API'ler ve operasyon araçlarını çalışan kanıtlara dönüştürüyorum: Kubernetes akışları, RF ağ simülasyonu, otomatik teslimat ve ölçülebilir backend performansı.",
+    heroViewProjects: "Projeleri incele",
+    heroContact: "CV talep et",
+    heroProof1Title: "Kubernetes + OpenStack",
+    heroProof1Body: "Özel bulut ve küme operasyonları",
+    heroProof2Title: "Backend teslimatı",
+    heroProof2Body: "API'ler, önbellekleme, CI/CD, SQL performansı",
+    heroProof3Title: "İncelenebilir projeler",
+    heroProof3Body: "Demolar, dokümanlar, repolar, proje medyası",
+    atlasAtomLabel: "A.T.O.M / kentsel RF kapsama",
+    atlasOpsLabel: "OpsCommand / küme operasyonları",
+    atlasProfileLabel: "Bulut/backend rolleri için uygun",
+    atlasProfileLocation: "Ankara / İstanbul / Uzaktan",
+    aboutEyebrow: "Yetenek haritası",
+    aboutHeading: "Kanıtların arkasındaki araç seti.",
     aboutCard1Title: "Bulut ve Platform",
     aboutCard1Body: "Kubernetes, OpenStack, Docker ve AWS EC2 ile dayanıklı sistemler tasarlayıp işletme deneyimi.",
     aboutCard2Title: "Backend Mühendisliği",
     aboutCard2Body: "Python ile RESTful API geliştirme, Redis ile gecikme azaltma ve SQL tabanlı servislerin güvenilir şekilde sürdürülmesi.",
     aboutCard3Title: "Teslimat ve Araçlar",
     aboutCard3Body: "GitHub Actions ile sürüm süreçlerini otomatikleştirme ve Dev, Test, Production akışlarında standart altyapı süreçleri kurma.",
-    experienceEyebrow: "Deneyim",
+    experienceEyebrow: "Mühendislik kaydı",
     experienceHeading: "Backend ve bulut alanında ölçülebilir etki oluşturan stajlar.",
     experienceBadge: "Staj",
     experienceHighlightsTitle: "Öne çıkanlar",
-    projectsEyebrow: "Projeler",
-    projectsHeading: "Seçili projeler ve açık kaynak katkıları.",
-    projectsNote: "Bulut, backend ve platform mühendisliği odağıyla seçilmiş depolar.",
-    certificatesEyebrow: "Sertifikalar",
-    certificatesHeading: "Profesyonel sertifikalar ve dersler.",
+    projectsEyebrow: "Proje kanıtı",
+    projectsHeading: "Demo, doküman ve repo bağlantılı sistemler.",
+    projectsNote: "OpsCommand ve A.T.O.M hikayenin merkezinde: gerçek arayüzler, incelenebilir dokümantasyon ve backend/platform mühendisliği derinliği.",
+    certificatesEyebrow: "Doğrulama",
+    certificatesHeading: "Teknik altyapıyı destekleyen sertifikalar ve dersler.",
     certificatesNote: "PDF önizlemek için sertifikaya tıklayın.",
     certificateOpen: "PDF gör",
     certificateModalTitle: "Sertifika",
     certificateOpenNewTab: "Yeni sekmede aç",
     issuedLabel: "Tarih",
     contactEyebrow: "İletişim",
-    contactHeading: "Bulut ve backend fırsatlarına açığım.",
+    contactHeading: "Bulut ve backend rolleri için görüşmeye hazırım.",
     contactBody: "Depolarımı inceleyebilir ve üst çubuktaki bağlantılar üzerinden bana ulaşabilirsiniz.",
     cvEyebrow: "CV Talebi",
     cvHeading: "Bir pozisyon veya iş birliği için detaylı CV mi istiyor musunuz?",
@@ -165,7 +187,7 @@ const I18N = {
       repo: "repo",
     },
     pageTitle: "Berk Ünsal | Portföy",
-    pageDescription: "Bulut mühendisliği, backend çalışmaları ve seçili GitHub projelerine odaklanan minimal portföy sitesi.",
+    pageDescription: "Platform mühendisliği işe alımcıları için proje odaklı bulut ve backend portföyü.",
   },
 };
 
@@ -655,9 +677,20 @@ function applyStaticTranslations() {
   setText("nav-certificates", t("navCertificates"));
   setText("nav-contact", t("navContact"));
   setText("hero-eyebrow", t("heroEyebrow"));
+  setText("hero-role", t("heroRole"));
   setText("hero-lede", t("heroLede"));
   setText("hero-view-projects", t("heroViewProjects"));
   setText("hero-contact", t("heroContact"));
+  setText("hero-proof-1-title", t("heroProof1Title"));
+  setText("hero-proof-1-body", t("heroProof1Body"));
+  setText("hero-proof-2-title", t("heroProof2Title"));
+  setText("hero-proof-2-body", t("heroProof2Body"));
+  setText("hero-proof-3-title", t("heroProof3Title"));
+  setText("hero-proof-3-body", t("heroProof3Body"));
+  setText("atlas-atom-label", t("atlasAtomLabel"));
+  setText("atlas-ops-label", t("atlasOpsLabel"));
+  setText("atlas-profile-label", t("atlasProfileLabel"));
+  setText("atlas-profile-location", t("atlasProfileLocation"));
   setText("about-eyebrow", t("aboutEyebrow"));
   setText("about-heading", t("aboutHeading"));
   setText("about-card-1-title", t("aboutCard1Title"));
