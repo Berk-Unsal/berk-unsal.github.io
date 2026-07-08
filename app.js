@@ -215,9 +215,14 @@ const SHOWCASE_PROJECTS = [
     updatedAt: "2026-04-01",
     visibility: "public",
     url: "https://github.com/Berk-Unsal/OpsCommand",
-    previewVideoUrl: "assets/demo-videos/opscommand-preview.mp4",
+    previewVideoUrl: "assets/demo-videos/opscommand-demo-video.mp4",
     previewPosterUrl: "assets/demo-videos/opscommand-poster.jpg",
     docsUrl: "https://opscommand.berkunsal.com",
+    visualKind: "opscommand",
+    visualSignals: {
+      en: ["RBAC", "metrics", "pods", "restart"],
+      tr: ["RBAC", "metrik", "podlar", "yeniden başlat"],
+    },
   },
   {
     name: "A.T.O.M",
@@ -225,7 +230,7 @@ const SHOWCASE_PROJECTS = [
       en: "Full-stack spatial simulation engine for visualizing and optimizing 4G LTE, 5G mmWave, and 6G Sub-THz cellular networks in dense urban environments.",
       tr: "Yoğun kentsel ortamlarda 4G LTE, 5G mmWave ve 6G Sub-THz hücresel ağlarını görselleştirmek ve optimize etmek için full-stack mekansal simülasyon motoru.",
     },
-    previewVideoUrl: "assets/demo-videos/atom-preview.mp4",
+    previewVideoUrl: "assets/demo-videos/atom-demo-video.mp4",
     previewPosterUrl: "assets/demo-videos/atom-poster.jpg",
     labels: {
       en: ["Telecom", "RF Simulation", "Geospatial"],
@@ -245,6 +250,11 @@ const SHOWCASE_PROJECTS = [
     url: "https://github.com/Berk-Unsal/atom",
     demoUrl: "https://atom.berkunsal.com",
     docsUrl: "https://berkunsal.com/atom",
+    visualKind: "atom",
+    visualSignals: {
+      en: ["OSM", "OpenCellID", "RF", "coverage"],
+      tr: ["OSM", "OpenCellID", "RF", "kapsama"],
+    },
   },
   {
     name: "Python Algorithmic Trading Bot",
@@ -748,10 +758,12 @@ function applyStaticTranslations() {
 function buildProjectCard(project, index) {
   const card = document.createElement("article");
   card.className = "project-card glass reveal";
+  card.dataset.visualKind = project.visualKind || "static";
   card.style.setProperty("--reveal-delay", `${index * 140}ms`);
 
   const image = document.createElement("div");
   image.className = "project-image";
+  image.dataset.visualKind = project.visualKind || "static";
 
   if (project.previewVideoUrl) {
     const previewVideo = document.createElement("video");
@@ -781,6 +793,11 @@ function buildProjectCard(project, index) {
     thumbnail.fetchPriority = index === 0 ? "high" : "auto";
     thumbnail.decoding = "async";
     image.appendChild(thumbnail);
+  }
+
+  const visualOverlay = buildProjectVisualOverlay(project);
+  if (visualOverlay) {
+    image.appendChild(visualOverlay);
   }
 
   const header = document.createElement("div");
@@ -858,6 +875,142 @@ function buildProjectCard(project, index) {
   card.append(image, header, description, meta, labelsRow, highlights, links);
 
   return card;
+}
+
+function createSvgElement(tagName, attributes = {}) {
+  const element = document.createElementNS("http://www.w3.org/2000/svg", tagName);
+  Object.entries(attributes).forEach(([key, value]) => {
+    element.setAttribute(key, value);
+  });
+  return element;
+}
+
+function appendSignalLabels(container, signals) {
+  if (!Array.isArray(signals) || !signals.length) {
+    return;
+  }
+
+  const list = document.createElement("div");
+  list.className = "visual-signal-list";
+  signals.slice(0, 4).forEach((signal) => {
+    appendTextElement(list, "span", "visual-signal", signal);
+  });
+  container.appendChild(list);
+}
+
+function buildAtomVisualLayer(signals) {
+  const overlay = document.createElement("div");
+  overlay.className = "project-visual-layer project-visual-layer-atom";
+  overlay.setAttribute("aria-hidden", "true");
+
+  const svg = createSvgElement("svg", {
+    class: "visual-map-svg",
+    viewBox: "0 0 100 56",
+    preserveAspectRatio: "none",
+    focusable: "false",
+  });
+
+  const path = createSvgElement("path", {
+    class: "visual-route",
+    d: "M8 42 C23 32 29 22 43 27 S64 46 91 17",
+    pathLength: "1",
+  });
+  svg.appendChild(path);
+
+  [
+    [24, 31, 19],
+    [54, 28, 24],
+    [78, 19, 16],
+  ].forEach(([cx, cy, r], index) => {
+    svg.appendChild(createSvgElement("circle", {
+      class: `visual-rf-ring visual-rf-ring-${index + 1}`,
+      cx,
+      cy,
+      r,
+    }));
+  });
+
+  [
+    [24, 31],
+    [54, 28],
+    [78, 19],
+  ].forEach(([cx, cy]) => {
+    svg.appendChild(createSvgElement("circle", {
+      class: "visual-antenna",
+      cx,
+      cy,
+      r: "1.35",
+    }));
+  });
+
+  overlay.appendChild(svg);
+  appendSignalLabels(overlay, signals);
+  return overlay;
+}
+
+function buildOpsCommandVisualLayer(signals) {
+  const overlay = document.createElement("div");
+  overlay.className = "project-visual-layer project-visual-layer-opscommand";
+  overlay.setAttribute("aria-hidden", "true");
+
+  const svg = createSvgElement("svg", {
+    class: "visual-cluster-svg",
+    viewBox: "0 0 100 56",
+    preserveAspectRatio: "none",
+    focusable: "false",
+  });
+
+  [
+    "M16 38 L38 25 L64 35 L84 18",
+    "M38 25 L48 44 L64 35",
+  ].forEach((d) => {
+    svg.appendChild(createSvgElement("path", {
+      class: "visual-cluster-link",
+      d,
+      pathLength: "1",
+    }));
+  });
+
+  [
+    [16, 38],
+    [38, 25],
+    [48, 44],
+    [64, 35],
+    [84, 18],
+  ].forEach(([cx, cy], index) => {
+    svg.appendChild(createSvgElement("circle", {
+      class: `visual-cluster-node visual-cluster-node-${index + 1}`,
+      cx,
+      cy,
+      r: "2.6",
+    }));
+  });
+
+  overlay.appendChild(svg);
+
+  const terminal = document.createElement("div");
+  terminal.className = "visual-terminal";
+  ["kubectl get pods", "rbac scope: read", "metrics: 99p"].forEach((line) => {
+    appendTextElement(terminal, "span", "", line);
+  });
+  overlay.appendChild(terminal);
+  appendSignalLabels(overlay, signals);
+  return overlay;
+}
+
+function buildProjectVisualOverlay(project) {
+  const kind = project.visualKind || "static";
+  const signals = getLocalizedField(project.visualSignals);
+
+  if (kind === "atom") {
+    return buildAtomVisualLayer(signals);
+  }
+
+  if (kind === "opscommand") {
+    return buildOpsCommandVisualLayer(signals);
+  }
+
+  return null;
 }
 
 function buildExperienceCard(item, index) {
